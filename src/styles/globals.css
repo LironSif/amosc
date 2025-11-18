@@ -1,0 +1,222 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  direction: rtl;
+  background-color: #0b1220;
+  color: #f9fafb;
+}
+
+.app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+/* Header */
+
+.header {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+  background: #020617cc;
+  backdrop-filter: blur(12px);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.logo-main {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.logo-sub {
+  display: block;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  text-decoration: none;
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+}
+
+.nav-link-active {
+  background-color: #2563eb;
+}
+
+/* Hero */
+
+.hero {
+  padding: 2.5rem 0 1.5rem;
+}
+
+.hero-content {
+  max-width: 800px;
+}
+
+.hero-eyebrow {
+  font-size: 0.85rem;
+  color: #93c5fd;
+  margin-bottom: 0.5rem;
+}
+
+.hero-title {
+  font-size: 1.8rem;
+  margin: 0 0 0.75rem;
+}
+
+.hero-subtitle {
+  font-size: 0.95rem;
+  color: #e5e7eb;
+  margin: 0 0 1.25rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Sections */
+
+.section {
+  margin-top: 2rem;
+}
+
+.section-header {
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  margin: 0 0 0.25rem;
+}
+
+.section-subtitle {
+  margin: 0;
+  color: #9ca3af;
+}
+
+.section-body p {
+  line-height: 1.7;
+  margin: 0.3rem 0;
+}
+
+/* Cards */
+
+.cards-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  padding: 1rem;
+  background: #02061799;
+}
+
+/* Team */
+
+.team-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Buttons */
+
+.btn {
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #e5e7eb;
+  border: 1px solid #4b5563;
+}
+
+/* Footer */
+
+.footer {
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+  padding: 1rem;
+  margin-top: auto;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* Contact form */
+
+.contact-form {
+  margin-top: 1rem;
+  max-width: 500px;
+}
+
+.form-row {
+  margin-bottom: 0.8rem;
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 0.15rem;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.5rem;
+  border: 1px solid #4b5563;
+  background: #020617;
+  color: #f9fafb;
+}
