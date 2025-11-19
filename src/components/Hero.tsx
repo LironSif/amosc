@@ -20,7 +20,7 @@ export function Hero({
   return (
     <section className="pt-10 pb-6">
       <div className="mx-auto max-w-5xl px-4">
-       
+        <div className="rounded-2xl bg-gradient-to-br from-slate-900/90 to-slate-950/95 px-5 py-7 shadow-xl shadow-slate-950/60">
           {eyebrow && (
             <p className="mb-2 text-xs font-medium text-blue-300/90">
               {eyebrow}
@@ -60,7 +60,7 @@ export function Hero({
               )}
             </div>
           )}
-      
+        </div>
       </div>
     </section>
   );
