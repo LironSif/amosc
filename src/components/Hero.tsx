@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 type HeroProps = {
   title: string;
   subtitle?: string;
@@ -20,7 +22,12 @@ export function Hero({
   return (
     <section className="pt-10 pb-6">
       <div className="mx-auto max-w-5xl px-4">
-        <div className="rounded-2xl bg-gradient-to-br from-slate-900/90 to-slate-950/95 px-5 py-7 shadow-xl shadow-slate-950/60">
+        <motion.div
+          className="rounded-2xl bg-gradient-to-br from-slate-900/90 to-slate-950/95 px-5 py-7 shadow-xl shadow-slate-950/60"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
           {eyebrow && (
             <p className="mb-2 text-xs font-medium text-blue-300/90">
               {eyebrow}
@@ -60,7 +67,7 @@ export function Hero({
               )}
             </div>
           )}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

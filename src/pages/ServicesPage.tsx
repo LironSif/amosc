@@ -1,38 +1,85 @@
 import { Section } from "../components/Section";
 
+// נתוני השירותים - קל לערוך מכאן
+const servicesData = [
+  {
+    id: 1,
+    title: "רישום ספק וליווי מול משהב\"ט",
+    description:
+      "ליווי מלא לקבלת מספר ספק משרד הביטחון, העלאת סיווג קבלני והסדרה רגולטורית מול רשם הקבלנים וגופים מוסדיים.",
+    iconImage: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763729401/Gemini_Generated_Image_8a4yc28a4yc28a4y_uchuxo.png",
+    linkText: "לפרטים על תהליך הספק",
+  },
+  {
+    id: 2,
+    title: "חדרי ביטחון ומיגון פלדה",
+    description:
+      "ייעוץ ותכנון למרחבים מוגנים, ממ\"מים ומבני פלדה בליסטיים. פתרונות לחיזוק מבנים קיימים והצבה בשטחים ציבוריים.",
+    iconImage: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715774/Gemini_Generated_Image_ktfdo7ktfdo7ktfd_dz0q2m.png",
+    linkText: "לפתרונות המיגון שלנו",
+  },
+  {
+    id: 3,
+    title: "מטווחים ואימון טקטי",
+    description:
+      "תכנון הנדסי ובליסטי למטווחים פתוחים וסגורים. בניית תפיסת הפעלה, שילוב מטרות חכמות ושימוש ברחפנים לאימון.",
+    iconImage: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763730076/Gemini_Generated_Image_iiuardiiuardiiua_gg6ecl.png",
+    linkText: "לעולם המטווחים",
+  },
+];
+
 export function ServicesPage() {
   return (
     <>
-      <Section title="השירותים שלנו">
-        <p>
-          כחלון יועצים מעניקה ליווי מקצועי בשלושה תחומי ליבה. כל תחום מלווה על
-          ידי צוות מקצועי בעל ניסיון מעשי בעבודה מול משרד הביטחון, רשויות
-          מקומיות וגופי פיקוח.
-        </p>
+      {/* --- פתיח --- */}
+      <Section title="תחומי השירות שלנו">
+        <div className="max-w-3xl">
+          <p className="text-lg text-slate-300 mb-6">
+            כחלון יועצים מחברת בין ניסיון צבאי, הבנה הנדסית ויכולות ביצוע. 
+            אנו מספקים מעטפת מקצועית לקבלנים, יזמים ורשויות המבקשים לפעול מול מערכת הביטחון בצורה יעילה ובטוחה.
+          </p>
+        </div>
+
+        {/* --- הגריד החדש (כרטיסים) --- */}
+        <div className="services-grid-container">
+          {servicesData.map((service) => (
+            <div key={service.id} className="service-card-modern">
+              
+              {/* תמונה קטנה/אייקון */}
+              <div className="service-icon-wrapper">
+                <img 
+                  src={service.iconImage} 
+                  alt={service.title} 
+                  className="service-icon-img"
+                />
+              </div>
+
+              {/* תוכן הכרטיס */}
+              <div className="service-content">
+                <h3 className="service-title">{service.title}</h3>
+                <p className="service-desc">{service.description}</p>
+                
+                {/* כפתור/לינק עדין */}
+                <div className="service-link-wrapper">
+                  <span className="service-link">
+                    {service.linkText} <span className="arrow">←</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </Section>
 
-      <Section title="ליווי לקבלת מספר ספק משרד הביטחון">
-        <p>
-          קבלת מספר ספק היא תנאי בסיסי לעבודה מול משרד הביטחון. התהליך מורכב
-          ודורש עמידה בסטנדרטים מחמירים והכנת מסמכים. אנו מלווים קבלנים, יצרנים
-          ויזמים עד קבלת האישור.
-        </p>
-        {/* פה אפשר להדביק את הפירוט הארוך שכתבנו קודם */}
-      </Section>
-
-      <Section title="תכנון והקמה של מטווחים ובתי ירי">
-        <p>
-          כחלון יועצים מובילה את תחום תכנון המטווחים בישראל. מטווחים סגורים,
-          פתוחים, בתי ירי ומתחמי אימון טקטיים, תוך שילוב ידע בליסטי והנדסי.
-        </p>
-      </Section>
-
-      <Section title="מיגון מבנים וחדרי ביטחון">
-        <p>
-          אנו מלווים רשויות מקומיות וקבלנים בתכנון והקמה של חדרי ביטחון, חיזוק
-          מבנים קיימים ופתרונות מיגון ייעודיים, בהתאם לדרישות פיקוד העורף
-          והרגולציה.
-        </p>
+      {/* --- הבהרת אחריות --- */}
+      <Section>
+        <div className="legal-note-container">
+           <p className="legal-note text-center">
+            * כחלון יועצים מספקת שירותי ייעוץ אסטרטגי בלבד. כל תכנון הנדסי
+            מחייב, חישובים וחתימות מקצועיות מבוצעים על ידי מהנדסים ויועצים
+            מוסמכים מטעם הלקוח.
+          </p>
+        </div>
       </Section>
     </>
   );

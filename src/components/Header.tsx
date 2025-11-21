@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLinkItem } from "./NavLinkItem";
+import logoKahlon from "../assets/kahlon-logo.svg";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,12 +11,18 @@ export function Header() {
   return (
     <header className="header">
       <div className="header-inner">
-        <div className="logo">
-          <span className="logo-main">כחלון יועצים</span>
-          <span className="logo-sub">
-            אינטליגנציה ביטחונית לפרויקטי תשתית, מטווחים ומיגון
-          </span>
-        </div>
+        <div className="flex items-center gap-2">
+  <img
+    src={logoKahlon}
+    alt="לוגו כחלון יועצים"
+    className="logo-icon"
+  />
+  <div>
+    <div className="logo-main">כחלון יועצים</div>
+    <span className="logo-sub">אינטליגנציה ביטחונית לפרויקטי תשתית, מטווחים ומיגון</span>
+  </div>
+</div>
+
 
         {/* ניווט בדסקטופ */}
         <nav className="nav nav-desktop">
