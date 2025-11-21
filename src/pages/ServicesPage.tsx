@@ -23,7 +23,7 @@ const servicesData = [
     title: "מטווחים ואימון טקטי",
     description:
       "תכנון הנדסי ובליסטי למטווחים פתוחים וסגורים. בניית תפיסת הפעלה, שילוב מטרות חכמות ושימוש ברחפנים לאימון.",
-    iconImage: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763730076/Gemini_Generated_Image_iiuardiiuardiiua_gg6ecl.png",
+    iconImage: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763755548/Gemini_Generated_Image_7fuw9p7fuw9p7fuw_wti8hj.png",
     linkText: "לעולם המטווחים",
   },
 ];

@@ -12,7 +12,7 @@ export function TeamPage() {
 
         <div className="team-container">
           
-          {/* --- מנהיג הצוות (עמוס) - בנפרד למעלה --- */}
+          {/* --- מנהיג הצוות (עמוס) --- */}
           <div className="team-leader-section">
             <div className="team-member-card leader-card">
               <div className="member-image-wrapper">
@@ -20,6 +20,8 @@ export function TeamPage() {
                   src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1752950818/IMG-20250719-WA0012_wuybys.jpg"
                   alt="עמוס כחלון"
                   className="member-image"
+                  // עמוס נראה בסדר במקור, אבל אפשר להוסיף גם כאן אם צריך
+                  style={{ objectPosition: "top" }} 
                 />
               </div>
               <div className="member-info">
@@ -41,16 +43,17 @@ export function TeamPage() {
             </div>
           </div>
 
-          {/* --- שאר הצוות (לירון, משה, אופיר) - בשורה מתחת --- */}
+          {/* --- שאר הצוות --- */}
           <div className="team-grid">
             
-            {/* לירון */}
+            {/* לירון - הוספת תיקון מיקום */}
             <div className="team-member-card">
               <div className="member-image-wrapper">
                 <img
                   src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1752950818/IMG-20250719-WA0008_csgsqq.jpg"
                   alt="לירון"
                   className="member-image"
+                  style={{ objectPosition: "top" }} /* <-- התיקון כאן */
                 />
               </div>
               <h3 className="member-name" >לירון סיפדו</h3>
@@ -58,19 +61,19 @@ export function TeamPage() {
               <div className="member-bio">
                 <p>
                   מומחה לבליסטיקה הנדסית ופורנזית. בעל ידע אזרחי נרחב בעולם הרחפנים
-                  והנגד-רחפנים, ממנועים ועד לוחמה אלקטרונית. מוביל את תחום הטכנולוגיה
-        .
+                  והנגד-רחפנים, ממנועים ועד לוחמה אלקטרונית. מוביל את תחום הטכנולוגיה.
                 </p>
               </div>
             </div>
 
-            {/* משה הרוש */}
+            {/* משה הרוש - הוספת תיקון מיקום */}
             <div className="team-member-card">
               <div className="member-image-wrapper">
                 <img
-                  src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715774/Gemini_Generated_Image_ktfdo7ktfdo7ktfd_dz0q2m.png"
+                  src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752419/IMG-20251121-WA0059_r1xtuo.jpg"
                   alt="משה הרוש"
                   className="member-image"
+             style={{ objectPosition: "3% 15%" }}
                 />
               </div>
               <h3 className="member-name">משה הרוש</h3>
@@ -84,13 +87,14 @@ export function TeamPage() {
               </div>
             </div>
 
-            {/* אופיר */}
+            {/* אופיר - תמונה גנרית בדרך כלל ממורכזת טוב, לא חייב שינוי */}
             <div className="team-member-card">
               <div className="member-image-wrapper">
                 <img
                   src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715775/Gemini_Generated_Image_yoihthyoihthyoih_l4wqpt.png"
                   alt="אופיר כהן"
                   className="member-image"
+                  style={{ objectPosition: "top" }}
                 />
               </div>
               <h3 className="member-name">אופיר כהן</h3>

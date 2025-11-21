@@ -1,54 +1,70 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Section } from "../components/Section";
 
 // ------------------------------------------------------------------
-// 1. הגדרת מבנה הנתונים
+// 1. הגדרת פרויקטים לגריד (לפי הקוד ששלחת)
 // ------------------------------------------------------------------
 
-const projectsData = [
+const gridProjects = [
   {
     id: 1,
-    // שינוי: הורדתי את "פרויקט דגל"
-    title: "מטווח מטולה", 
+    title: "מטווח מטולה",
     description:
-      "פרויקט מקיף הכולל אפיון, הדמיה, חלוקת שטחים ותכנון מסלולי ירי. הפרויקט בוצע משלב הרעיון ועד מודל היתכנות מלא, כולל פתרונות לוגיסטיים, מיגון והצבות, תוך שימוש בהדמיות תלת-ממד מתקדמות להמחשת התוצר הסופי.",
+      "ביצוע סיור שטח מקצועי עם גורמי המועצה והכנת הדמיות תלת-ממד מתקדמות לצורך המחשה, בדיקת היתכנות וקידום התכנון מול הגורמים הרלוונטיים.",
     media: [
       {
         type: "video",
+        src: "https://res.cloudinary.com/dfxw7cfie/video/upload/v1763754655/PXL_20250721_074205524.LS_l9simm.mp4",
+        // וידאו מהשטח - ללא פוסטר ספציפי
+        alt: "וידאו מהשטח במטולה",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763754633/PXL_20250721_074221520_utyoci.jpg",
+        alt: "תמונה מהשטח במטולה",
+      },
+      {
+        type: "video",
         src: "https://res.cloudinary.com/dfxw7cfie/video/upload/v1753569875/20250727_0142_Futuristic_Shooting_Range_Transformation_simple_compose_01k14ecze7f4691xek9xnspdb3_qdd69t.mp4",
-        // נשתמש בפוסטר רק לתמונה הקטנה למטה, לא לוידאו הראשי
-        poster: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715487/steel_large_constrction_object_jty0ki.jpg",
+        poster: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763756431/poster1_nlttjq.png", 
         alt: "הדמיית וידאו מטווח מטולה",
-      },
-      {
-        type: "video",
-        src: "https://res.cloudinary.com/dfxw7cfie/video/upload/v1753569567/Architectural_Visualization_Video_Creation_1_qosmad.mp4",
-        poster: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715487/steel_large_constrction_object_jty0ki.jpg",
-        alt: "הדמיית וידאו מטווח מטולה 2",
-      },
-      {
-        type: "video",
-        src: "https://res.cloudinary.com/dfxw7cfie/video/upload/v1753569014/Architectural_Visualization_Video_Creation_oy7eok.mp4",
-        poster: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715487/steel_large_constrction_object_jty0ki.jpg",
-        alt: "הדמיית וידאו מטווח מטולה 3",
       },
     ],
   },
   {
     id: 2,
+    title: "מטווח אלי הכט",
+    description:
+      "תכנון מקיף וטיפול בבירוקרטיה מול הרשויות וגורמי הרישוי. הפרויקט כולל התאמת המתווה לדרישות הבטיחות והרגולציה. *הפרויקט עדיין בתהליך.",
+    media: [
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763755633/Gemini_Generated_Image_wl7fbhwl7fbhwl7f_gdrgnk.png",
+        alt: "תכנון מטווח אלי הכט",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763755548/Gemini_Generated_Image_7fuw9p7fuw9p7fuw_wti8hj.png",
+        alt: "שטח מטווח",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763730076/Gemini_Generated_Image_iiuardiiuardiiua_gg6ecl.png",
+        alt: "שטח מטווח נוסף",
+      },
+    ],
+  },
+  {
+    id: 3,
     title: "פתרונות מיגון וחדרי ביטחון מפלדה",
     description:
-      "תכנון וביצוע של חדרי ביטחון בליסטיים ומבני פלדה לחיזוק מבנים קיימים. הפרויקטים משלבים יכולות ייצור מתקדמות עם עמידה בתקנים בליסטיים מחמירים, ומיועדים להצבה מהירה בשטחים ציבוריים ומוסדות.",
+      "תכנון וביצוע של חדרי ביטחון בליסטיים ומבני פלדה לחיזוק מבנים קיימים. הפרויקטים משלבים יכולות ייצור מתקדמות עם עמידה בתקנים בליסטיים מחמירים.",
     media: [
-       {
-        type: "video",
-        src: "https://res.cloudinary.com/dfxw7cfie/video/upload/v1752956705/Barrier_Structure_Video_Showcase_crs3yq.mp4",
-        alt: "וידאו מיגון",
-      },
       {
         type: "video",
         src: "https://res.cloudinary.com/dfxw7cfie/video/upload/v1763724709/%D7%A1%D7%A8%D7%98%D7%95%D7%9F_%D7%9E%D7%91%D7%A0%D7%94_%D7%9E%D7%AA%D7%9B%D7%AA_%D7%9B%D7%A7%D7%95%D7%91%D7%99%D7%99%D7%AA_%D7%9C%D7%92%D7%95_orkgq7.mp4",
-        alt: "וידאו מיגון",
+        poster: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715774/Gemini_Generated_Image_ktfdo7ktfdo7ktfd_dz0q2m.png",
+        alt: "וידאו מיגון מבנה",
       },
       {
         type: "image",
@@ -59,11 +75,6 @@ const projectsData = [
         type: "image",
         src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1752954880/WhatsApp_Image_2025-07-19_at_10.42.06_PM_nqxshu.jpg",
         alt: "מבנה ממוגן 2",
-      },
-      {
-        type: "image",
-        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1752098003/Gemini_Generated_Image_kt7uomkt7uomkt7u_jx8qfi.png",
-        alt: "מבנה ממוגן 3",
       },
       {
         type: "image",
@@ -83,182 +94,153 @@ const projectsData = [
     ],
   },
   {
-    id: 3,
+    id: 4,
     title: "הדמיות ותכנון תלת־ממד",
     description:
       "שימוש במודלים ויזואליים מתקדמים לבדיקת היתכנות ותכנון ראשוני. ההדמיות מאפשרות ללקוח 'לסייר' בפרויקט עוד לפני שהונחה האבן הראשונה ולתכנן נכון את חלוקת השטח וקווי הירי.",
     media: [
       {
         type: "video",
+        src: "https://res.cloudinary.com/dfxw7cfie/video/upload/v1753569567/Architectural_Visualization_Video_Creation_1_qosmad.mp4",
+        poster: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763756438/poster2_zm4z2s.png",
+        alt: "הדמיה 1",
+      },
+      {
+        type: "video",
+        src: "https://res.cloudinary.com/dfxw7cfie/video/upload/v1753569875/20250727_0142_Futuristic_Shooting_Range_Transformation_simple_compose_01k14ecze7f4691xek9xnspdb3_qdd69t.mp4",
+        poster: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763756431/poster1_nlttjq.png",
+        alt: "הדמיה 2",
+      },
+      {
+        type: "video",
         src: "https://res.cloudinary.com/dfxw7cfie/video/upload/v1753569014/Architectural_Visualization_Video_Creation_oy7eok.mp4",
-        alt: "וידאו הדמיה",
-      },
-    ],
-  },
-  {
-    id: 4,
-    title: "יכולות ושטח — הצוות בפעולה",
-    description:
-      "החיבור בין המשרד לשטח הוא סוד ההצלחה שלנו. הגלריה מציגה תיעוד של בדיקות שטח, ליווי ייצור במפעלים, בדיקות בליסטיקה ושימוש ברחפנים למיפוי ופיקוח.",
-    media: [
-      {
-        type: "image",
-        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715487/Liron_in_F16_atxoh1.jpg",
-        alt: "לירון במטוס",
+        poster: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763756438/poster2_zm4z2s.png",
+        alt: "הדמיה 3",
       },
       {
-        type: "image",
-        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715495/Liron_and_drone_avata_g8xhy9.jpg",
-        alt: "רחפן",
+        type: "video",
+        src: "https://res.cloudinary.com/dfxw7cfie/video/upload/v1752956705/Barrier_Structure_Video_Showcase_crs3yq.mp4",
+        poster: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763756438/poster3_gcu4yv.png",
+        alt: "הדמיה 4",
       },
-      
       {
-        type: "image",
-        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715778/amos_in_steel_factory3_t5pscz.jpg",
-        alt: "פלדה",
+        type: "video",
+        src: "https://res.cloudinary.com/dfxw7cfie/video/upload/v1752083593/Drone_vs_Tank_Cage_Test_vywlni.mp4",
+        poster: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1752098157/Gemini_Generated_Image_2p3u0a2p3u0a2p3u_j7nycq.png",
+        alt: "בדיקת רחפן וכלוב",
       },
       {
         type: "image",
-        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715793/amos_in_steel_factory2_mg2dex.jpg",
-        alt: "פלד1ה",
+        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1752098157/Gemini_Generated_Image_2p3u0a2p3u0a2p3u_j7nycq.png",
+        alt: "הדמיה סטטית 1",
       },
       {
         type: "image",
-        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715795/Liron_and_drone_avata_macsqu.jpg",
-        alt: "פל2ה",
+        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1752098004/Gemini_Generated_Image_kt7uomkt7uomkt7u_1_eorqex.png",
+        alt: "הדמיה סטטית 2",
       },
       {
         type: "image",
-        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763724551/Liron_in_shooting_rang3_fnues7.png",
-        alt: "פלד3ה",
+        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1751988605/ChatGPT_Image_Jul_8_2025_06_29_43_PM_eyylnr.png",
+        alt: "הדמיה סטטית 3",
       },
-       {
+      {
         type: "image",
-        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715779/Liron_in_f16_2_ghxl4x.jpg",
-        alt: "פלד3ה",
-      },
-         {
-        type: "image",
-        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715778/amos_in_steel_factory3_t5pscz.jpg",
-        alt: "פלד3ה",
-      },
-          {
-        type: "image",
-        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763727673/IMG-20250703-WA0006_bvz8av.jpg",
-        alt: "פלד3ה",
+        src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715776/Gemini_Generated_Image_r92iemr92iemr92i_b4xpzj.png",
+        alt: "הדמיה סטטית 4",
       },
     ],
   },
 ];
 
 // ------------------------------------------------------------------
-// 2. קומפוננטת כרטיס פרויקט חכם (עם סליידר פנימי ולוגיקת חלון)
+// 2. נתונים לגלריית "צוות בפעולה" (הסליידר התחתון הנפרד)
+// ------------------------------------------------------------------
+
+const teamGalleryImages = [
+  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752427/IMG-20251121-WA0047_fe7sj2.jpg",
+  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752421/IMG-20251121-WA0053_vutoda.jpg",
+  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715487/Liron_in_F16_atxoh1.jpg",
+
+  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715778/amos_in_steel_factory3_t5pscz.jpg",
+  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715793/amos_in_steel_factory2_mg2dex.jpg",
+  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715795/Liron_and_drone_avata_macsqu.jpg",
+  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763724551/Liron_in_shooting_rang3_fnues7.png",
+  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715779/Liron_in_f16_2_ghxl4x.jpg",
+  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763727673/IMG-20250703-WA0006_bvz8av.jpg",
+  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752427/IMG-20251121-WA0047_fe7sj2.jpg",
+];
+
+// ------------------------------------------------------------------
+// 3. קומפוננטת כרטיס פרויקט חכם (עם סליידר פנימי ולוגיקת חלון)
 // ------------------------------------------------------------------
 
 function ProjectCard({ project }: { project: any }) {
   const [activeIndex, setActiveIndex] = useState(0);
-
   const activeMedia = project.media[activeIndex];
   const totalItems = project.media.length;
 
-  // פונקציות ניווט
-  const handleNext = () => {
-    setActiveIndex((prev) => (prev + 1) % totalItems);
-  };
+  const handleNext = () => setActiveIndex((prev) => (prev + 1) % totalItems);
+  const handlePrev = () => setActiveIndex((prev) => (prev === 0 ? totalItems - 1 : prev - 1));
 
-  const handlePrev = () => {
-    setActiveIndex((prev) =>
-      prev === 0 ? totalItems - 1 : prev - 1
-    );
-  };
-
-  // --- לוגיקת מניעת ריצוד (Sliding Window) ---
-  // מציג מקסימום 4 תמונות קטנות, ומזיז את החלון לפי התמונה הפעילה
-  const MAX_THUMBNAILS = 4;
+  // --- לוגיקת מניעת ריצוד: הצגת 3 תמונות בלבד ---
+  const MAX_THUMBNAILS = 3;
   
   let startWindow = Math.max(0, activeIndex - 1);
   if (startWindow + MAX_THUMBNAILS > totalItems) {
     startWindow = Math.max(0, totalItems - MAX_THUMBNAILS);
   }
-  
-  // יצירת מערך מצומצם לתצוגה
   const visibleThumbnails = project.media
     .map((item: any, originalIndex: number) => ({ item, originalIndex }))
     .slice(startWindow, startWindow + MAX_THUMBNAILS);
 
+  const VIDEO_PLACEHOLDER = "https://via.placeholder.com/150/0f172a/cbd5e1?text=Video";
+
   return (
     <article className="project-full-card">
-      {/* כותרת וטקסט */}
       <div className="card-content">
         <h3 className="card-title">{project.title}</h3>
         <p className="card-description">{project.description}</p>
       </div>
-
-      {/* אזור המדיה */}
       <div className="card-media-area">
-        
-        {/* תצוגה ראשית */}
         <div className="media-main-container">
-          {/* הצגת חיצים רק אם יש יותר מפריט אחד */}
           {totalItems > 1 && (
             <>
-              <button
-                className="slider-arrow arrow-right"
-                onClick={handleNext}
-                aria-label="הבא"
-              >
-                ❮
-              </button>
-              <button
-                className="slider-arrow arrow-left"
-                onClick={handlePrev}
-                aria-label="הקודם"
-              >
-                ❯
-              </button>
+              <button className="slider-arrow arrow-right" onClick={handleNext} aria-label="הבא">❮</button>
+              <button className="slider-arrow arrow-left" onClick={handlePrev} aria-label="הקודם">❯</button>
             </>
           )}
-
-          {/* תוכן ראשי */}
           {activeMedia.type === "video" ? (
-            <video
-              key={activeMedia.src} // מאפס את הנגן בהחלפה
-              controls
+            <video 
+              key={activeMedia.src} 
+              controls 
               className="media-content"
-              // כאן הסרתי את ה-poster כבקשתך, הוידאו יוצג מיד
+              // פוסטר בוידאו הראשי אינו חובה, אבל עוזר לטעינה ראשונית
+              poster={activeMedia.poster}
             >
               <source src={activeMedia.src} type="video/mp4" />
-              הדפדפן שלך לא תומך בוידאו.
             </video>
           ) : (
-            <img
-              src={activeMedia.src}
-              alt={activeMedia.alt}
-              className="media-content"
-            />
+            <img src={activeMedia.src} alt={activeMedia.alt} className="media-content" />
           )}
         </div>
-
-        {/* תמונות קטנות - מציג רק 4 כדי למנוע ריצוד וגלילה */}
+        
+        {/* סליידר תמונות קטנות */}
         {totalItems > 1 && (
           <div className="media-thumbnails">
             {visibleThumbnails.map(({ item, originalIndex }: any) => (
               <button
                 key={originalIndex}
                 onClick={() => setActiveIndex(originalIndex)}
-                className={`thumbnail-btn ${
-                  originalIndex === activeIndex ? "thumbnail-active" : ""
-                }`}
+                className={`thumbnail-btn ${originalIndex === activeIndex ? "thumbnail-active" : ""}`}
               >
-                {/* בתמונות הקטנות נשתמש בפוסטר אם זה וידאו, אחרת תמונה שבורה */}
                 <img
-                  src={item.type === "video" ? (item.poster || item.src) : item.src} 
+                  // אם זה וידאו - נסה להציג פוסטר. אם אין פוסטר - הצג תמונת ברירת מחדל.
+                  src={item.type === "video" ? (item.poster || VIDEO_PLACEHOLDER) : item.src}
                   alt="thumbnail"
                   className="thumbnail-img"
                   onError={(e) => {
-                    // אם אין תמונה (למשל וידאו בלי פוסטר), נשים אייקון גנרי או צבע
-                    e.currentTarget.style.display = 'none'; 
-                    e.currentTarget.parentElement!.style.backgroundColor = '#334155'; // ריבוע אפור
+                    e.currentTarget.src = VIDEO_PLACEHOLDER;
                   }}
                 />
               </button>
@@ -270,11 +252,22 @@ function ProjectCard({ project }: { project: any }) {
   );
 }
 
-// ------------------------------------------------------------------
-// 3. הדף הראשי
-// ------------------------------------------------------------------
-
 export function ProjectsPage() {
+  // רפרנס לגלריית הצוות התחתונה כדי לאפשר גלילה עם כפתורים
+  const teamScrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollTeamGallery = (direction: "left" | "right") => {
+    if (teamScrollRef.current) {
+      const { current } = teamScrollRef;
+      const scrollAmount = 300;
+      if (direction === "left") {
+        current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+      } else {
+        current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <>
       <Section title="פרויקטים נבחרים">
@@ -284,11 +277,54 @@ export function ProjectsPage() {
         </p>
 
         <div className="projects-stack">
-          {projectsData.map((project) => (
+          {gridProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       </Section>
+
+      {/* מקטע נפרד ורחב ל"צוות בפעולה" עם כפתורי גלילה */}
+      <div className="team-gallery-section relative group">
+        <div className="team-gallery-header">
+          <h2 className="text-2xl font-bold text-white mb-2">יכולות ושטח — הצוות בפעולה</h2>
+          <p className="text-slate-400 max-w-3xl mx-auto">
+            החיבור בין המשרד לשטח הוא סוד ההצלחה שלנו. הגלריה מציגה תיעוד של בדיקות שטח,
+            ליווי ייצור במפעלים, בדיקות בליסטיקה ושימוש ברחפנים למיפוי ופיקוח.
+          </p>
+        </div>
+        
+        {/* מיכל יחסי כדי שהחיצים יתמקמו ביחס אליו */}
+        <div className="relative px-8"> 
+          {/* כפתור גלילה ימינה (הבא) */}
+          <button 
+            className="slider-arrow arrow-right" 
+            style={{ right: 0, height: '50px', width: '50px' }}
+            onClick={() => scrollTeamGallery('right')}
+            aria-label="גלילה ימינה"
+          >
+            ❮
+          </button>
+
+          {/* סליידר גלילה אופקי לתמונות עומדות */}
+          <div className="team-gallery-scroll" ref={teamScrollRef}>
+            {teamGalleryImages.map((src, index) => (
+              <div key={index} className="team-gallery-item">
+                <img src={src} alt={`פעילות שטח ${index + 1}`} className="team-gallery-img" />
+              </div>
+            ))}
+          </div>
+
+          {/* כפתור גלילה שמאלה (הקודם) */}
+          <button 
+            className="slider-arrow arrow-left" 
+            style={{ left: 0, height: '50px', width: '50px' }}
+            onClick={() => scrollTeamGallery('left')}
+            aria-label="גלילה שמאלה"
+          >
+            ❯
+          </button>
+        </div>
+      </div>
     </>
   );
 }

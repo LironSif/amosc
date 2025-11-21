@@ -8,10 +8,6 @@ export function HomePage() {
 
   return (
     <>
-      {/* -------------------------------------- */}
-      {/* HERO --------------------------------- */}
-      {/* -------------------------------------- */}
-
       <Hero
         eyebrow="ייעוץ ביטחוני הנדסי לרשויות, קבלנים וגופים מוסדיים"
         title="כחלון יועצים. אינטליגנציה ביטחונית לפרויקטי תשתית, מטווחים ומיגון."
@@ -22,22 +18,22 @@ export function HomePage() {
         onSecondaryClick={() => navigate("/projects")}
       />
 
-      {/* -------------------------------------- */}
-      {/* MINI HERO GALLERY -------------------- */}
-      {/* -------------------------------------- */}
-
+      {/* --- MINI HERO GALLERY --- */}
       <section className="mini-hero-gallery">
         <div className="mini-gallery-track">
-          <img src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763724707/Liron_in_shooting_rang1_ycq58i.png" alt="לירון בטייסת" />
-          <img src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763727674/IMG-20240725-WA0030_zwxdpu.jpg" alt="עמוס במפעל פלדה" />
-          <img src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715779/Liron_in_f16_2_ghxl4x.jpg" alt="מבנה פלדה גדול" />
+          <img src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715781/Liron_in_F16_gwntwm.jpg" alt="לירון בטייסת" />
+          
+          {/* התיקון לתמונה של עמוס במפעל */}
+          <img 
+            src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763755548/Gemini_Generated_Image_7fuw9p7fuw9p7fuw_wti8hj.png" 
+            alt="עמוס במפעל פלדה" 
+         style={{ objectPosition: "50% 40%" }}
+          />
+          
+          <img src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752427/IMG-20251121-WA0047_fe7sj2.jpg" alt="מבנה פלדה גדול" />
           <img src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763727673/IMG-20250703-WA0006_bvz8av.jpg" alt="לירון באתר פלדה" />
         </div>
       </section>
-
-      {/* -------------------------------------- */}
-      {/* מי אנחנו ----------------------------- */}
-      {/* -------------------------------------- */}
 
       <Section title="מי אנחנו">
         <p>
@@ -51,22 +47,16 @@ export function HomePage() {
         </p>
       </Section>
 
-      {/* -------------------------------------- */}
-      {/* מה מייחד אותנו ------------------------ */}
-      {/* -------------------------------------- */}
-
       <Section title="מה מייחד אותנו">
         <ul className="cards-grid">
           <li className="card">
             <h3>היכרות מלאה עם מערכת הביטחון</h3>
             <p>ניסיון מעשי בליווי פרויקטים מול משרד הביטחון, משטרת ישראל וגופי פיקוח נוספים.</p>
           </li>
-
           <li className="card">
             <h3>שילוב הנדסה, מיגון ובליסטיקה</h3>
             <p>ידע הנדסי עמוק בתכנון מטווחים, חדרי ביטחון ומיגון פרויקטים.</p>
           </li>
-
           <li className="card">
             <h3>ליווי מלא משלב הרעיון ועד אישור</h3>
             <p>הקפדה על תהליך שלם ומסודר מול כל הגורמים הרלוונטיים.</p>
@@ -75,10 +65,6 @@ export function HomePage() {
       </Section>
 
       <div className="section-divider" />
-
-      {/* -------------------------------------- */}
-      {/* תהליך העבודה -------------------------- */}
-      {/* -------------------------------------- */}
 
       <Section title="תהליך העבודה שלנו">
         <ol className="timeline">
@@ -89,7 +75,6 @@ export function HomePage() {
               <p>פגישה ראשונית להבנת צרכים, מגבלות ויעדים.</p>
             </div>
           </li>
-
           <li className="timeline-item">
             <div className="timeline-badge">2</div>
             <div className="timeline-content">
@@ -97,7 +82,6 @@ export function HomePage() {
               <p>חלוקת שטחים, מיגון, קווי ירי ותפיסת הפעלה.</p>
             </div>
           </li>
-
           <li className="timeline-item">
             <div className="timeline-badge">3</div>
             <div className="timeline-content">
@@ -105,7 +89,6 @@ export function HomePage() {
               <p>פעילות מול משרד הביטחון, משטרה ופיקוד העורף.</p>
             </div>
           </li>
-
           <li className="timeline-item">
             <div className="timeline-badge">4</div>
             <div className="timeline-content">
@@ -116,19 +99,11 @@ export function HomePage() {
         </ol>
       </Section>
 
-      {/* -------------------------------------- */}
-      {/* פרויקטים נבחרים - סליידר ------------ */}
-      {/* -------------------------------------- */}
-
       <Section title="פרויקטים נבחרים - מבט מהיר">
         <ProjectSlider />
       </Section>
 
-      {/* -------------------------------------- */}
-      {/* קהל יעד ------------------------------- */}
-      {/* -------------------------------------- */}
-
-      <Section title="למי אנחנו עובדים">
+      <Section title="מול אנחנו עובדים">
         <ul className="tags-list">
           <li className="tag-pill">רשויות מקומיות ותאגידים עירוניים</li>
           <li className="tag-pill">קבלני תשתיות ובנייה</li>
