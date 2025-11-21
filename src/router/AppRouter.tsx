@@ -5,6 +5,7 @@ import { ServicesPage } from "../pages/ServicesPage";
 import { ProjectsPage } from "../pages/ProjectsPage";
 import { TeamPage } from "../pages/TeamPage";
 import { ContactPage } from "../pages/ContactPage";
+import { UnderConstruction } from "../pages/UnderConstruction";
 
 export function AppRouter() {
   return (
@@ -15,6 +16,7 @@ export function AppRouter() {
       <Route path="/projects" element={<ProjectsPage />} />
       <Route path="/team" element={<TeamPage />} />
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/coming-soon" element={<UnderConstruction />} />
     </Routes>
   );
 }

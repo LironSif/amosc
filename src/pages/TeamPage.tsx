@@ -1,4 +1,5 @@
 import { Section } from "../components/Section";
+import { optimizeCloudinary } from "../utils/cloudinary";
 
 export function TeamPage() {
   return (
@@ -17,10 +18,11 @@ export function TeamPage() {
             <div className="team-member-card leader-card">
               <div className="member-image-wrapper">
                 <img
-                  src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1752950818/IMG-20250719-WA0012_wuybys.jpg"
+                  src={optimizeCloudinary("https://res.cloudinary.com/dfxw7cfie/image/upload/v1752950818/IMG-20250719-WA0012_wuybys.jpg", 400)}
                   alt="עמוס כחלון"
                   className="member-image"
-                  // עמוס נראה בסדר במקור, אבל אפשר להוסיף גם כאן אם צריך
+                  width="400"
+                  height="400"
                   style={{ objectPosition: "top" }} 
                 />
               </div>
@@ -46,14 +48,17 @@ export function TeamPage() {
           {/* --- שאר הצוות --- */}
           <div className="team-grid">
             
-            {/* לירון - הוספת תיקון מיקום */}
+            {/* לירון */}
             <div className="team-member-card">
               <div className="member-image-wrapper">
                 <img
-                  src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1752950818/IMG-20250719-WA0008_csgsqq.jpg"
+                  src={optimizeCloudinary("https://res.cloudinary.com/dfxw7cfie/image/upload/v1752950818/IMG-20250719-WA0008_csgsqq.jpg", 300)}
                   alt="לירון"
                   className="member-image"
-                  style={{ objectPosition: "top" }} /* <-- התיקון כאן */
+                  loading="lazy"
+                  width="300"
+                  height="300"
+                  style={{ objectPosition: "top" }}
                 />
               </div>
               <h3 className="member-name" >לירון סיפדו</h3>
@@ -66,14 +71,17 @@ export function TeamPage() {
               </div>
             </div>
 
-            {/* משה הרוש - הוספת תיקון מיקום */}
+            {/* משה הרוש */}
             <div className="team-member-card">
               <div className="member-image-wrapper">
                 <img
-                  src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752419/IMG-20251121-WA0059_r1xtuo.jpg"
+                  src={optimizeCloudinary("https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752419/IMG-20251121-WA0059_r1xtuo.jpg", 300)}
                   alt="משה הרוש"
                   className="member-image"
-             style={{ objectPosition: "3% 15%" }}
+                  loading="lazy"
+                  width="300"
+                  height="300"
+                  style={{ objectPosition: "3% 15%" }}
                 />
               </div>
               <h3 className="member-name">משה הרוש</h3>
@@ -87,13 +95,16 @@ export function TeamPage() {
               </div>
             </div>
 
-            {/* אופיר - תמונה גנרית בדרך כלל ממורכזת טוב, לא חייב שינוי */}
+            {/* אופיר */}
             <div className="team-member-card">
               <div className="member-image-wrapper">
                 <img
-                  src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715775/Gemini_Generated_Image_yoihthyoihthyoih_l4wqpt.png"
+                  src={optimizeCloudinary("https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715775/Gemini_Generated_Image_yoihthyoihthyoih_l4wqpt.png", 300)}
                   alt="אופיר כהן"
                   className="member-image"
+                  loading="lazy"
+                  width="300"
+                  height="300"
                   style={{ objectPosition: "top" }}
                 />
               </div>

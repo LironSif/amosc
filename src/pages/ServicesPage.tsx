@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Section } from "../components/Section";
 
 // נתוני השירותים - קל לערוך מכאן
@@ -29,6 +30,8 @@ const servicesData = [
 ];
 
 export function ServicesPage() {
+  const navigate = useNavigate();
+
   return (
     <>
       {/* --- פתיח --- */}
@@ -40,7 +43,7 @@ export function ServicesPage() {
           </p>
         </div>
 
-        {/* --- הגריד החדש (כרטיסים) --- */}
+        {/* --- הגריד --- */}
         <div className="services-grid-container">
           {servicesData.map((service) => (
             <div key={service.id} className="service-card-modern">
@@ -59,9 +62,14 @@ export function ServicesPage() {
                 <h3 className="service-title">{service.title}</h3>
                 <p className="service-desc">{service.description}</p>
                 
-                {/* כפתור/לינק עדין */}
+                {/* כפתור/לינק עדין - מוביל לדף בבניה */}
                 <div className="service-link-wrapper">
-                  <span className="service-link">
+                  <span 
+                    className="service-link" 
+                    onClick={() => navigate("/coming-soon")}
+                    role="button" // משפר נגישות
+                    tabIndex={0}
+                  >
                     {service.linkText} <span className="arrow">←</span>
                   </span>
                 </div>

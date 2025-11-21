@@ -412,3 +412,27 @@ input, textarea { width: 100%; padding: 0.45rem 0.6rem; border-radius: 0.5rem; b
     height: 300px;
   }
 }
+/* ================================================= */
+/* תוספת ספציפית לדף אודות (AboutPage) - להוסיף בסוף */
+/* ================================================= */
+
+.about-hero-image {
+  width: 100%;
+  max-width: 450px; /* רוחב מקסימלי כדי שלא תהיה ענקית */
+  height: 320px;    /* גובה קבוע כדי לשמור על פרופורציות יפות */
+  object-fit: cover; /* חיתוך התמונה שתמלא את המסגרת בלי להימעך */
+  object-position: center;
+  border-radius: 1rem; /* פינות עגולות */
+  border: 1px solid rgba(148, 163, 184, 0.3); /* מסגרת עדינה */
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.5); /* צל להבלטה */
+  flex-shrink: 0;
+}
+
+/* במובייל - התמונה תהיה קצת יותר נמוכה */
+@media (max-width: 768px) {
+  .about-hero-image {
+    max-width: 100%;
+    height: 250px;
+    margin-top: 1.5rem;
+  }
+}

@@ -1,8 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react"; // הוספנו useEffect
 import { Section } from "../components/Section";
+import { optimizeCloudinary } from "../utils/cloudinary";
 
 // ------------------------------------------------------------------
-// 1. הגדרת פרויקטים לגריד (לפי הקוד ששלחת)
+// 1. הגדרת פרויקטים לגריד
 // ------------------------------------------------------------------
 
 const gridProjects = [
@@ -15,7 +16,7 @@ const gridProjects = [
       {
         type: "video",
         src: "https://res.cloudinary.com/dfxw7cfie/video/upload/v1763754655/PXL_20250721_074205524.LS_l9simm.mp4",
-        // וידאו מהשטח - ללא פוסטר ספציפי
+          poster: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763756431/poster1_nlttjq.png",
         alt: "וידאו מהשטח במטולה",
       },
       {
@@ -154,45 +155,69 @@ const gridProjects = [
 ];
 
 // ------------------------------------------------------------------
-// 2. נתונים לגלריית "צוות בפעולה" (הסליידר התחתון הנפרד)
+// 2. הפרויקט הרחב: יכולות ושטח
 // ------------------------------------------------------------------
 
-const teamGalleryImages = [
-  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752427/IMG-20251121-WA0047_fe7sj2.jpg",
-  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752421/IMG-20251121-WA0053_vutoda.jpg",
-  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715487/Liron_in_F16_atxoh1.jpg",
-
-  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715778/amos_in_steel_factory3_t5pscz.jpg",
-  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715793/amos_in_steel_factory2_mg2dex.jpg",
-  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715795/Liron_and_drone_avata_macsqu.jpg",
-  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763724551/Liron_in_shooting_rang3_fnues7.png",
-  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715779/Liron_in_f16_2_ghxl4x.jpg",
-  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763727673/IMG-20250703-WA0006_bvz8av.jpg",
-  "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752427/IMG-20251121-WA0047_fe7sj2.jpg",
-];
+const teamActionProject = {
+  id: "team-action",
+  title: "יכולות ושטח — הצוות בפעולה",
+  description:
+    "החיבור בין המשרד לשטח הוא סוד ההצלחה שלנו. הגלריה מציגה תיעוד של בדיקות שטח, ליווי ייצור במפעלים, בדיקות בליסטיקה ושימוש ברחפנים למיפוי ופיקוח.",
+  media: [
+    { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752427/IMG-20251121-WA0047_fe7sj2.jpg", alt: "פעילות שטח 1" },
+    { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752421/IMG-20251121-WA0053_vutoda.jpg", alt: "פעילות שטח 2" },
+    { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715487/Liron_in_F16_atxoh1.jpg", alt: "לירון בטייסת" },
+    { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715778/amos_in_steel_factory3_t5pscz.jpg", alt: "עמוס במפעל פלדה" },
+    { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715793/amos_in_steel_factory2_mg2dex.jpg", alt: "עמוס במפעל 2" },
+    { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715795/Liron_and_drone_avata_macsqu.jpg", alt: "לירון ורחפן" },
+    { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763724551/Liron_in_shooting_rang3_fnues7.png", alt: "מטווח" },
+    { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715779/Liron_in_f16_2_ghxl4x.jpg", alt: "F16" },
+    { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763727673/IMG-20250703-WA0006_bvz8av.jpg", alt: "שטח 3" },
+    { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752427/IMG-20251121-WA0047_fe7sj2.jpg", alt: "שטח 4" },
+  ],
+};
 
 // ------------------------------------------------------------------
-// 3. קומפוננטת כרטיס פרויקט חכם (עם סליידר פנימי ולוגיקת חלון)
+// 3. קומפוננטת כרטיס פרויקט חכם + לוגיקה ל-5 תמונות
 // ------------------------------------------------------------------
 
-function ProjectCard({ project }: { project: any }) {
+function ProjectCard({ project, desktopThumbnails = 3 }: { project: any, desktopThumbnails?: number }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  // הוספנו סטייט לכמות התמונות שמוצגות בפועל
+  const [thumbnailsToShow, setThumbnailsToShow] = useState(3);
+  
   const activeMedia = project.media[activeIndex];
   const totalItems = project.media.length;
+
+  // אפקט שבודק את רוחב המסך ומחליט כמה תמונות להציג
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) { // Desktop / Tablet
+        setThumbnailsToShow(desktopThumbnails);
+      } else { // Mobile
+        setThumbnailsToShow(3); // במובייל תמיד נשמור על 3 כדי לא להעמיס
+      }
+    };
+
+    // בדיקה ראשונית
+    handleResize();
+
+    // האזנה לשינויי גודל מסך
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [desktopThumbnails]);
 
   const handleNext = () => setActiveIndex((prev) => (prev + 1) % totalItems);
   const handlePrev = () => setActiveIndex((prev) => (prev === 0 ? totalItems - 1 : prev - 1));
 
-  // --- לוגיקת מניעת ריצוד: הצגת 3 תמונות בלבד ---
-  const MAX_THUMBNAILS = 3;
-  
+  // שימוש במשתנה הדינמי במקום הקבוע
   let startWindow = Math.max(0, activeIndex - 1);
-  if (startWindow + MAX_THUMBNAILS > totalItems) {
-    startWindow = Math.max(0, totalItems - MAX_THUMBNAILS);
+  if (startWindow + thumbnailsToShow > totalItems) {
+    startWindow = Math.max(0, totalItems - thumbnailsToShow);
   }
   const visibleThumbnails = project.media
     .map((item: any, originalIndex: number) => ({ item, originalIndex }))
-    .slice(startWindow, startWindow + MAX_THUMBNAILS);
+    .slice(startWindow, startWindow + thumbnailsToShow);
 
   const VIDEO_PLACEHOLDER = "https://via.placeholder.com/150/0f172a/cbd5e1?text=Video";
 
@@ -215,13 +240,16 @@ function ProjectCard({ project }: { project: any }) {
               key={activeMedia.src} 
               controls 
               className="media-content"
-              // פוסטר בוידאו הראשי אינו חובה, אבל עוזר לטעינה ראשונית
-              poster={activeMedia.poster}
+              poster={activeMedia.poster ? optimizeCloudinary(activeMedia.poster, 800) : undefined}
             >
               <source src={activeMedia.src} type="video/mp4" />
             </video>
           ) : (
-            <img src={activeMedia.src} alt={activeMedia.alt} className="media-content" />
+            <img 
+              src={optimizeCloudinary(activeMedia.src, 800)} 
+              alt={activeMedia.alt} 
+              className="media-content" 
+            />
           )}
         </div>
         
@@ -235,8 +263,10 @@ function ProjectCard({ project }: { project: any }) {
                 className={`thumbnail-btn ${originalIndex === activeIndex ? "thumbnail-active" : ""}`}
               >
                 <img
-                  // אם זה וידאו - נסה להציג פוסטר. אם אין פוסטר - הצג תמונת ברירת מחדל.
-                  src={item.type === "video" ? (item.poster || VIDEO_PLACEHOLDER) : item.src}
+                  src={optimizeCloudinary(
+                    item.type === "video" ? (item.poster || VIDEO_PLACEHOLDER) : item.src, 
+                    150
+                  )}
                   alt="thumbnail"
                   className="thumbnail-img"
                   onError={(e) => {
@@ -252,22 +282,11 @@ function ProjectCard({ project }: { project: any }) {
   );
 }
 
+// ------------------------------------------------------------------
+// 4. עמוד הפרויקטים הראשי
+// ------------------------------------------------------------------
+
 export function ProjectsPage() {
-  // רפרנס לגלריית הצוות התחתונה כדי לאפשר גלילה עם כפתורים
-  const teamScrollRef = useRef<HTMLDivElement>(null);
-
-  const scrollTeamGallery = (direction: "left" | "right") => {
-    if (teamScrollRef.current) {
-      const { current } = teamScrollRef;
-      const scrollAmount = 300;
-      if (direction === "left") {
-        current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-      } else {
-        current.scrollBy({ left: scrollAmount, behavior: "smooth" });
-      }
-    }
-  };
-
   return (
     <>
       <Section title="פרויקטים נבחרים">
@@ -276,55 +295,26 @@ export function ProjectsPage() {
           הוא שילוב של אתגר הנדסי, צורך ביטחוני ופתרון יצירתי בשטח.
         </p>
 
+       {/* הגריד של 4 הפרויקטים */}
         <div className="projects-stack">
           {gridProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
+
+        {/* --- התיקון: מפריד (Spacer) שקוף וקשיח --- */}
+        <div className="h-32 w-full"></div> 
+        {/* -------------------------------------- */}
+
+        {/* כרטיס רחב נפרד לצוות בפעולה */}
+        <div> 
+          <ProjectCard 
+            project={teamActionProject} 
+            desktopThumbnails={5} 
+          />
+        </div>
+
       </Section>
-
-      {/* מקטע נפרד ורחב ל"צוות בפעולה" עם כפתורי גלילה */}
-      <div className="team-gallery-section relative group">
-        <div className="team-gallery-header">
-          <h2 className="text-2xl font-bold text-white mb-2">יכולות ושטח — הצוות בפעולה</h2>
-          <p className="text-slate-400 max-w-3xl mx-auto">
-            החיבור בין המשרד לשטח הוא סוד ההצלחה שלנו. הגלריה מציגה תיעוד של בדיקות שטח,
-            ליווי ייצור במפעלים, בדיקות בליסטיקה ושימוש ברחפנים למיפוי ופיקוח.
-          </p>
-        </div>
-        
-        {/* מיכל יחסי כדי שהחיצים יתמקמו ביחס אליו */}
-        <div className="relative px-8"> 
-          {/* כפתור גלילה ימינה (הבא) */}
-          <button 
-            className="slider-arrow arrow-right" 
-            style={{ right: 0, height: '50px', width: '50px' }}
-            onClick={() => scrollTeamGallery('right')}
-            aria-label="גלילה ימינה"
-          >
-            ❮
-          </button>
-
-          {/* סליידר גלילה אופקי לתמונות עומדות */}
-          <div className="team-gallery-scroll" ref={teamScrollRef}>
-            {teamGalleryImages.map((src, index) => (
-              <div key={index} className="team-gallery-item">
-                <img src={src} alt={`פעילות שטח ${index + 1}`} className="team-gallery-img" />
-              </div>
-            ))}
-          </div>
-
-          {/* כפתור גלילה שמאלה (הקודם) */}
-          <button 
-            className="slider-arrow arrow-left" 
-            style={{ left: 0, height: '50px', width: '50px' }}
-            onClick={() => scrollTeamGallery('left')}
-            aria-label="גלילה שמאלה"
-          >
-            ❯
-          </button>
-        </div>
-      </div>
     </>
   );
 }
