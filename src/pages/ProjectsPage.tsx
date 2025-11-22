@@ -173,7 +173,6 @@ const teamActionProject = {
     { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763724551/Liron_in_shooting_rang3_fnues7.png", alt: "מטווח" },
     { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715779/Liron_in_f16_2_ghxl4x.jpg", alt: "F16" },
     { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763727673/IMG-20250703-WA0006_bvz8av.jpg", alt: "שטח 3" },
-    { type: "image", src: "https://res.cloudinary.com/dfxw7cfie/image/upload/v1763752427/IMG-20251121-WA0047_fe7sj2.jpg", alt: "שטח 4" },
   ],
 };
 
@@ -290,30 +289,34 @@ export function ProjectsPage() {
   return (
     <>
       <Section title="פרויקטים נבחרים">
-        <p className="mb-8">
+        <p className="mb-12 max-w-3xl mx-auto text-slate-300">
           בעמוד זה מוצגים פרויקטים נבחרים אותם ליוותה כחלון יועצים. כל פרויקט
           הוא שילוב של אתגר הנדסי, צורך ביטחוני ופתרון יצירתי בשטח.
         </p>
 
-       {/* הגריד של 4 הפרויקטים */}
-        <div className="projects-stack">
+        {/* שינוי אסטרטגיה: כל הפרויקטים (הקטנים והגדול) יושבים באותו מיכל Grid.
+            המיכל projects-stack מוגדר ב-CSS החיצוני שלך.
+        */}
+        <div className="projects-stack w-full">
+          
+          {/* 1. רינדור 4 הפרויקטים הקטנים */}
           {gridProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
+
+          {/* 2. רינדור הפרויקט הגדול בתוך אותו הגריד!
+             אנחנו משתמשים ב-inline style כדי להכריח אותו לתפוס את כל הרוחב (1 / -1)
+             לא משנה כמה עמודות יש בגריד. 
+             הוספתי גם mt-8 כדי לתת לו קצת אקסטרה אוויר מהשאר.
+          */}
+          <div style={{ gridColumn: "1 / -1" }} className="mt-8 md:mt-12 w-full"> 
+            <ProjectCard 
+              project={teamActionProject} 
+              desktopThumbnails={5} 
+            />
+          </div>
+
         </div>
-
-        {/* --- התיקון: מפריד (Spacer) שקוף וקשיח --- */}
-        <div className="h-32 w-full"></div> 
-        {/* -------------------------------------- */}
-
-        {/* כרטיס רחב נפרד לצוות בפעולה */}
-        <div> 
-          <ProjectCard 
-            project={teamActionProject} 
-            desktopThumbnails={5} 
-          />
-        </div>
-
       </Section>
     </>
   );

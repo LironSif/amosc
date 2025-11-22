@@ -14,8 +14,15 @@ type MainLayoutProps = {
 export function MainLayout({ children }: MainLayoutProps) {
   const location = useLocation();
   
-  // בדיקה: האם אנחנו כרגע בדף צור קשר?
+  // בדיקה: האם אנחנו בדף "צור קשר"?
   const isContactPage = location.pathname === "/contact";
+  
+  // בדיקה: האם אנחנו בדף "בבניה"?
+  const isComingSoonPage = location.pathname === "/coming-soon";
+
+  // משתנה עזר: האם להסתיר את החלקים התחתונים (TrustBar + CTA)
+  // אנחנו מסתירים אותם גם ב"צור קשר" וגם ב"בבניה" כדי שהדף יהיה נקי
+  const shouldHideBottomSections = isContactPage || isComingSoonPage;
 
   return (
     <div className="app-root">
@@ -25,13 +32,13 @@ export function MainLayout({ children }: MainLayoutProps) {
       <Header />
       
       <main className="app-main">
-        {/* הצגת TrustBar בכל דף למעט צור קשר */}
-        {!isContactPage && <TrustBar />}
+        {/* הצגת TrustBar בכל דף, אלא אם כן זה דף מיוחד (צור קשר או בבניה) */}
+        {!shouldHideBottomSections && <TrustBar />}
         
         {children}
         
-        {/* הצגת הנעה לפעולה (CTA) בכל דף למעט דף צור קשר עצמו */}
-        {!isContactPage && <CallToAction />}
+        {/* הצגת הנעה לפעולה (CTA) בכל דף, אלא אם כן זה דף מיוחד */}
+        {!shouldHideBottomSections && <CallToAction />}
       </main>
       
       <Footer />

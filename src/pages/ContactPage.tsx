@@ -1,198 +1,157 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import type { FormEvent } from "react";
-import { Section } from "../components/Section";
 import emailjs from "@emailjs/browser";
+import { Section } from "../components/Section";
 
-const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
-const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
-const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string;
+// רכיב קטן לאייקונים - נשאר זהה
+function StatusIcon({ type }: { type: 'success' | 'error' }) {
+  if (type === 'success') {
+    return (
+      <svg className="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    );
+  }
+  return (
+    <svg className="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  );
+}
 
 export function ContactPage() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [topic, setTopic] = useState("");
-  const [message, setMessage] = useState("");
-  const [isSending, setIsSending] = useState(false);
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const form = useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const sendEmail = (e: FormEvent) => {
     e.preventDefault();
-    setStatus("idle");
+    if (!form.current) return;
 
-    // בדיקה פשוטה אם משתני הסביבה חסרים, כדי לא לקרוס
-    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
-      console.warn("EmailJS keys are missing. Form submission simulated.");
-      // סימולציה של הצלחה כדי שהUI יעבוד גם בלי מפתחות כרגע
-      setIsSending(true);
-      setTimeout(() => {
-        setIsSending(false);
-        setStatus("success");
-        setName(""); setPhone(""); setEmail(""); setTopic(""); setMessage("");
-      }, 1500);
+    setIsSubmitting(true);
+    setFeedback(null);
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setFeedback({ type: 'error', message: "שגיאת קונפיגורציה: חסרים מפתחות שליחה." });
+      setIsSubmitting(false);
       return;
     }
 
-    setIsSending(true);
-
-    try {
-      await emailjs.send(
-        SERVICE_ID,
-        TEMPLATE_ID,
-        {
-          from_name: name,
-          from_phone: phone,
-          from_email: email,
-          subject: topic,
-          message,
+    emailjs
+      .sendForm(serviceId, templateId, form.current, publicKey)
+      .then(
+        () => {
+          setFeedback({ type: 'success', message: "ההודעה נשלחה בהצלחה! נחזור אליך בהקדם." });
+          form.current?.reset();
         },
-        {
-          publicKey: PUBLIC_KEY,
+        (error) => {
+          console.error('FAILED...', error.text);
+          setFeedback({ type: 'error', message: "אירעה שגיאה בשליחה. אנא נסו שנית או צרו קשר בטלפון." });
         }
-      );
-
-      setStatus("success");
-      setName(""); setPhone(""); setEmail(""); setTopic(""); setMessage("");
-    } catch (err) {
-      console.error("EmailJS error", err);
-      setStatus("error");
-    } finally {
-      setIsSending(false);
-    }
+      )
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (
     <>
       <Section title="צור קשר">
-        <p className="mb-10 max-w-2xl">
-          אנחנו כאן לכל שאלה. השאירו פרטים ונחזור אליכם בהקדם עם מענה מקצועי
-          המותאם לצרכים הביטחוניים וההנדסיים שלכם.
+        <p className="mb-10 max-w-3xl mx-auto text-center text-slate-300">
+          מעוניינים בייעוץ? יש לכם פרויקט מורכב שדורש פתרון יצירתי?
+          השאירו פרטים ונחזור אליכם בהקדם.
         </p>
 
         <div className="contact-split-layout">
           
-          {/* צד ימין: פרטי התקשרות */}
-          <div className="contact-info-box">
+          <div className="contact-info-box h-fit">
             <h3 className="text-xl font-bold text-white mb-6">פרטי התקשרות</h3>
-            
             <div className="contact-detail-item">
               <div className="contact-icon">📍</div>
               <div>
-                <span className="contact-label">כתובת המשרד</span>
-                <span>רחוב החרש 4, אזור תעשייה צפוני</span>
+                <span className="contact-label">כתובת</span>
+                <span>רחוב הברזל 1, תל אביב (מתחם רמת החייל)</span>
               </div>
             </div>
-
             <div className="contact-detail-item">
               <div className="contact-icon">📞</div>
               <div>
                 <span className="contact-label">טלפון</span>
-                <span>050-1234567</span> {/* עדכן למספר האמיתי */}
+                <a href="tel:0500000000" className="hover:text-blue-400 transition-colors">050-0000000</a>
               </div>
             </div>
-
             <div className="contact-detail-item">
               <div className="contact-icon">✉️</div>
               <div>
                 <span className="contact-label">דוא"ל</span>
-                <span>office@kahlon-consulting.co.il</span> {/* עדכן למייל האמיתי */}
+                <a href="mailto:info@kahlon.co.il" className="hover:text-blue-400 transition-colors">info@kahlon.co.il</a>
               </div>
-            </div>
-
-            <div className="mt-8 pt-8 border-t border-slate-700">
-              <p className="text-sm text-slate-400">
-                שעות פעילות:<br />
-                א'-ה': 09:00 - 18:00<br />
-                ו': בתיאום מראש
-              </p>
             </div>
           </div>
 
-          {/* צד שמאל: הטופס */}
-          <form className="contact-form" onSubmit={handleSubmit}>
+          <form ref={form} onSubmit={sendEmail} className="contact-form">
             <h3 className="text-xl font-bold text-white mb-6">שלחו לנו הודעה</h3>
             
             <div className="form-row">
-              <label>
-                שם מלא
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  placeholder="ישראל ישראלי"
-                />
-              </label>
+              <label htmlFor="user_name">שם מלא</label>
+              <input type="text" name="user_name" id="user_name" required placeholder="ישראל ישראלי" />
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="form-row">
-                <label>
-                  טלפון
-                  <input
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    required
-                    placeholder="050-0000000"
-                  />
-                </label>
-              </div>
-
-              <div className="form-row">
-                <label>
-                  דוא"ל
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    placeholder="name@example.com"
-                  />
-                </label>
-              </div>
-            </div>
-
             <div className="form-row">
-              <label>
-                נושא הפנייה
-                <input
-                  type="text"
-                  value={topic}
-                  onChange={(e) => setTopic(e.target.value)}
-                  placeholder="לדוגמה: ייעוץ למטווח חדש"
-                />
-              </label>
+              <label htmlFor="user_phone">טלפון</label>
+              <input type="tel" name="user_phone" id="user_phone" required placeholder="050-0000000" dir="ltr" className="text-right" />
             </div>
-
             <div className="form-row">
-              <label>
-                פרטי הבקשה
-                <textarea
-                  rows={4}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  required
-                  placeholder="ספר לנו בקצרה על הפרויקט..."
-                />
-              </label>
+              <label htmlFor="user_email">דוא"ל</label>
+              <input type="email" name="user_email" id="user_email" required placeholder="name@example.com" dir="ltr" className="text-right" />
+            </div>
+            <div className="form-row">
+              <label htmlFor="subject">נושא הפנייה</label>
+              <input type="text" name="subject" id="subject" required placeholder="לדוגמה: ייעוץ למטווח חדש" />
+            </div>
+            <div className="form-row">
+              <label htmlFor="message">פרטי הבקשה</label>
+              <textarea name="message" id="message" rows={4} required placeholder="ספר לנו בקצרה על הפרויקט..." />
             </div>
 
-            <button type="submit" className="btn btn-primary w-full md:w-auto" disabled={isSending}>
-              {isSending ? "שולח..." : "שליחת הודעה"}
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className={`btn btn-primary w-full mt-4 flex justify-center items-center gap-2 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+                  שולח...
+                </>
+              ) : (
+                "שליחת ההודעה"
+              )}
             </button>
 
-            {status === "success" && (
-              <div className="mt-4 p-3 bg-green-900/30 border border-green-500/30 rounded text-green-400 text-sm">
-                ההודעה נשלחה בהצלחה! נחזור אליך בהקדם.
+            {/* --- התיקון: שימוש ב-Class CSS ייעודי --- */}
+            {feedback && (
+              <div className={`form-feedback ${
+                feedback.type === 'success' ? 'form-feedback-success' : 'form-feedback-error'
+              }`}>
+                <div className="mt-0.5">
+                  <StatusIcon type={feedback.type} />
+                </div>
+                <div>
+                  <p className="font-medium text-sm">
+                    {feedback.type === 'success' ? 'הצלחה!' : 'שגיאה'}
+                  </p>
+                  <p className="text-sm opacity-90">
+                    {feedback.message}
+                  </p>
+                </div>
               </div>
             )}
+            {/* ------------------------------------------- */}
 
-            {status === "error" && (
-              <div className="mt-4 p-3 bg-red-900/30 border border-red-500/30 rounded text-red-400 text-sm">
-                אירעה שגיאה בשליחה. אנא נסו שוב או צרו קשר טלפוני.
-              </div>
-            )}
           </form>
         </div>
       </Section>
