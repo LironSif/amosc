@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"; // הוספנו useEffect
+import { useState } from "react";
 import { Section } from "../components/Section";
 import { optimizeCloudinary } from "../utils/cloudinary";
 
@@ -177,48 +177,42 @@ const teamActionProject = {
 };
 
 // ------------------------------------------------------------------
-// 3. קומפוננטת כרטיס פרויקט חכם + לוגיקה ל-5 תמונות
+// 3. קומפוננטת כרטיס פרויקט חכם + סליידר נקודות
 // ------------------------------------------------------------------
 
-function ProjectCard({ project, desktopThumbnails = 3 }: { project: any, desktopThumbnails?: number }) {
+function ProjectCard({ project }: { project: any, desktopThumbnails?: number }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  // הוספנו סטייט לכמות התמונות שמוצגות בפועל
-  const [thumbnailsToShow, setThumbnailsToShow] = useState(3);
   
+  // --- לוגיקה למגע (Swipe) ---
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) handleNext();
+    if (isRightSwipe) handlePrev();
+  };
+  // ---------------------------
+
   const activeMedia = project.media[activeIndex];
   const totalItems = project.media.length;
 
-  // אפקט שבודק את רוחב המסך ומחליט כמה תמונות להציג
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) { // Desktop / Tablet
-        setThumbnailsToShow(desktopThumbnails);
-      } else { // Mobile
-        setThumbnailsToShow(3); // במובייל תמיד נשמור על 3 כדי לא להעמיס
-      }
-    };
-
-    // בדיקה ראשונית
-    handleResize();
-
-    // האזנה לשינויי גודל מסך
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [desktopThumbnails]);
-
   const handleNext = () => setActiveIndex((prev) => (prev + 1) % totalItems);
   const handlePrev = () => setActiveIndex((prev) => (prev === 0 ? totalItems - 1 : prev - 1));
-
-  // שימוש במשתנה הדינמי במקום הקבוע
-  let startWindow = Math.max(0, activeIndex - 1);
-  if (startWindow + thumbnailsToShow > totalItems) {
-    startWindow = Math.max(0, totalItems - thumbnailsToShow);
-  }
-  const visibleThumbnails = project.media
-    .map((item: any, originalIndex: number) => ({ item, originalIndex }))
-    .slice(startWindow, startWindow + thumbnailsToShow);
-
-  const VIDEO_PLACEHOLDER = "https://via.placeholder.com/150/0f172a/cbd5e1?text=Video";
 
   return (
     <article className="project-full-card">
@@ -226,14 +220,22 @@ function ProjectCard({ project, desktopThumbnails = 3 }: { project: any, desktop
         <h3 className="card-title">{project.title}</h3>
         <p className="card-description">{project.description}</p>
       </div>
+
       <div className="card-media-area">
-        <div className="media-main-container">
+        {/* Media Container */}
+        <div 
+          className="media-main-container touch-pan-y"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           {totalItems > 1 && (
             <>
               <button className="slider-arrow arrow-right" onClick={handleNext} aria-label="הבא">❮</button>
               <button className="slider-arrow arrow-left" onClick={handlePrev} aria-label="הקודם">❯</button>
             </>
           )}
+          
           {activeMedia.type === "video" ? (
             <video 
               key={activeMedia.src} 
@@ -247,35 +249,26 @@ function ProjectCard({ project, desktopThumbnails = 3 }: { project: any, desktop
             <img 
               src={optimizeCloudinary(activeMedia.src, 800)} 
               alt={activeMedia.alt} 
-              className="media-content" 
+              className="media-content select-none pointer-events-none" 
             />
           )}
         </div>
         
-        {/* סליידר תמונות קטנות */}
+        {/* --- שינוי: נקודות (Dots) במקום תמונות --- */}
         {totalItems > 1 && (
-          <div className="media-thumbnails">
-            {visibleThumbnails.map(({ item, originalIndex }: any) => (
+          <div className="slider-pagination">
+            {project.media.map((_: any, index: number) => (
               <button
-                key={originalIndex}
-                onClick={() => setActiveIndex(originalIndex)}
-                className={`thumbnail-btn ${originalIndex === activeIndex ? "thumbnail-active" : ""}`}
-              >
-                <img
-                  src={optimizeCloudinary(
-                    item.type === "video" ? (item.poster || VIDEO_PLACEHOLDER) : item.src, 
-                    150
-                  )}
-                  alt="thumbnail"
-                  className="thumbnail-img"
-                  onError={(e) => {
-                    e.currentTarget.src = VIDEO_PLACEHOLDER;
-                  }}
-                />
-              </button>
+                key={index}
+                onClick={() => setActiveIndex(index)}
+                className={`pagination-dot ${index === activeIndex ? "pagination-dot-active" : ""}`}
+                aria-label={`עבור לתמונה ${index + 1}`}
+              />
             ))}
           </div>
         )}
+        {/* ------------------------------------------- */}
+
       </div>
     </article>
   );
@@ -294,28 +287,16 @@ export function ProjectsPage() {
           הוא שילוב של אתגר הנדסי, צורך ביטחוני ופתרון יצירתי בשטח.
         </p>
 
-        {/* שינוי אסטרטגיה: כל הפרויקטים (הקטנים והגדול) יושבים באותו מיכל Grid.
-            המיכל projects-stack מוגדר ב-CSS החיצוני שלך.
-        */}
         <div className="projects-stack w-full">
-          
-          {/* 1. רינדור 4 הפרויקטים הקטנים */}
+          {/* הפרויקטים הקטנים */}
           {gridProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
 
-          {/* 2. רינדור הפרויקט הגדול בתוך אותו הגריד!
-             אנחנו משתמשים ב-inline style כדי להכריח אותו לתפוס את כל הרוחב (1 / -1)
-             לא משנה כמה עמודות יש בגריד. 
-             הוספתי גם mt-8 כדי לתת לו קצת אקסטרה אוויר מהשאר.
-          */}
+          {/* הפרויקט הגדול - תופס את כל הרוחב */}
           <div style={{ gridColumn: "1 / -1" }} className="mt-8 md:mt-12 w-full"> 
-            <ProjectCard 
-              project={teamActionProject} 
-              desktopThumbnails={5} 
-            />
+            <ProjectCard project={teamActionProject} />
           </div>
-
         </div>
       </Section>
     </>
