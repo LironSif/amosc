@@ -1,74 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 64 64"
-     role="img"
-     aria-label="עיריות ורשויות">
-  <!-- רקע שקוף -->
-  <defs>
-    <!-- אפשר להגדיר פה גרדיאנטים אם תרצה בהמשך -->
-  </defs>
-
-  <!-- צורת מגן חיצונית -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="עיריות ורשויות">
+  
   <path
-    d="M12 10
-       H52
-       V30
-       C52 40 46 48 32 54
-       C18 48 12 40 12 30
-       Z"
+    d="M12 10 H52 V30 C52 40 46 48 32 54 C18 48 12 40 12 30 Z"
     fill="#1d4ed8"
-    stroke="#0f172a"
-    stroke-width="2"
+    stroke="#ffffff"
+    stroke-width="3"
+    stroke-linejoin="round"
   />
 
-  <!-- שמיים -->
+  <path d="M15 13 H49 V28 H15 Z" fill="#38bdf8" />
+
+  <circle cx="21" cy="19" r="3.5" fill="#facc15" />
+  <g stroke="#facc15" stroke-width="1.5" stroke-linecap="round">
+    <line x1="21" y1="13" x2="21" y2="11.5" />
+    <line x1="21" y1="25" x2="21" y2="26.5" />
+    <line x1="15" y1="19" x2="13.5" y2="19" />
+    <line x1="27" y1="19" x2="28.5" y2="19" />
+    <line x1="17" y1="15" x2="16" y2="14" />
+    <line x1="25" y1="23" x2="26" y2="24" />
+  </g>
+
   <path
-    d="M14 12 H50 V28 H14 Z"
-    fill="#38bdf8"
-  />
-
-  <!-- שמש -->
-  <circle
-    cx="21"
-    cy="19"
-    r="4"
-    fill="#facc15"
-  />
-  <!-- קרני שמש פשוטות -->
-  <line x1="21" y1="13" x2="21" y2="11" stroke="#facc15" stroke-width="1.5" />
-  <line x1="21" y1="25" x2="21" y2="27" stroke="#facc15" stroke-width="1.5" />
-  <line x1="15" y1="19" x2="13" y2="19" stroke="#facc15" stroke-width="1.5" />
-  <line x1="27" y1="19" x2="29" y2="19" stroke="#facc15" stroke-width="1.5" />
-  <line x1="17" y1="15" x2="15.5" y2="13.5" stroke="#facc15" stroke-width="1.5" />
-  <line x1="25" y1="23" x2="26.5" y2="24.5" stroke="#facc15" stroke-width="1.5" />
-
-  <!-- גלים / ים / נחל -->
-  <path
-    d="M14 28
-       Q20 32 26 28
-       T38 28
-       T50 28
-       V34
-       H14
-       Z"
+    d="M15 28 Q21 32 27 28 T39 28 T51 28 V34 H15 Z"
     fill="#0ea5e9"
   />
 
-  <!-- בניין מרכזי -->
   <rect x="26" y="24" width="12" height="16" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5" />
-  <rect x="29" y="27" width="2.5" height="3" fill="#e5e7eb" />
-  <rect x="32.75" y="27" width="2.5" height="3" fill="#e5e7eb" />
-  <rect x="29" y="31.5" width="2.5" height="3" fill="#e5e7eb" />
-  <rect x="32.75" y="31.5" width="2.5" height="3" fill="#e5e7eb" />
-  <!-- דלת -->
-  <rect x="30.5" y="35" width="3" height="5" fill="#cbd5f5" />
+  <rect x="29" y="27" width="2.5" height="3" fill="#94a3b8" />
+  <rect x="32.5" y="27" width="2.5" height="3" fill="#94a3b8" />
+  <rect x="29" y="31.5" width="2.5" height="3" fill="#94a3b8" />
+  <rect x="32.5" y="31.5" width="2.5" height="3" fill="#94a3b8" />
+  <path d="M30.5 35 H33.5 V40 H30.5 Z" fill="#64748b" />
 
-  <!-- בניין צד שמאל -->
-  <rect x="18" y="28" width="6" height="10" fill="#e5e7eb" stroke="#0f172a" stroke-width="1" />
+  <rect x="18" y="28" width="6" height="10" fill="#e2e8f0" stroke="#0f172a" stroke-width="1" />
   <line x1="19" y1="31" x2="23" y2="31" stroke="#94a3b8" stroke-width="1" />
   <line x1="19" y1="34" x2="23" y2="34" stroke="#94a3b8" stroke-width="1" />
 
-  <!-- בניין צד ימין -->
-  <rect x="40" y="27" width="6" height="11" fill="#e5e7eb" stroke="#0f172a" stroke-width="1" />
+  <rect x="40" y="27" width="6" height="11" fill="#e2e8f0" stroke="#0f172a" stroke-width="1" />
   <line x1="41" y1="30" x2="45" y2="30" stroke="#94a3b8" stroke-width="1" />
   <line x1="41" y1="33" x2="45" y2="33" stroke="#94a3b8" stroke-width="1" />
 
