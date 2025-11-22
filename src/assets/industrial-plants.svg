@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="מפעלי תעשייה">
+  
+  <path
+    d="M12 10 H52 V30 C52 40.5 46 49.5 32 56 C18 49.5 12 40.5 12 30 Z"
+    fill="#1e293b"
+    stroke="#ffffff"
+    stroke-width="3"
+    stroke-linejoin="round"
+  />
+
+  <path d="M15 13 H49 V28 H15 Z" fill="#2563eb" />
+
+  <rect x="15" y="28" width="34" height="4" fill="#0f172a" />
+
+  <path
+    d="M16 32 L26 26 L32 32 L38 26 L48 32 V44 H16 Z"
+    fill="#e2e8f0"
+    stroke="#0f172a"
+    stroke-width="1"
+    stroke-linejoin="round"
+  />
+
+  <rect x="19" y="36" width="3" height="3" fill="#93c5fd" />
+  <rect x="25" y="36" width="3" height="3" fill="#93c5fd" />
+  <rect x="31" y="36" width="3" height="3" fill="#93c5fd" />
+  <rect x="37" y="36" width="3" height="3" fill="#93c5fd" />
+  <rect x="43" y="36" width="3" height="3" fill="#93c5fd" />
+
+  <rect x="29" y="39" width="6" height="5" fill="#64748b" />
+
+  <rect x="20" y="20" width="6" height="10" fill="#475569" stroke="#0f172a" stroke-width="1" />
+  <line x1="20" y1="23" x2="26" y2="23" stroke="#9ca3af" stroke-width="1" />
+  <line x1="20" y1="26" x2="26" y2="26" stroke="#9ca3af" stroke-width="1" />
+
+  <path
+    d="M23 18 c-2 -2 -1.5 -4 0.5 -5.5 c2 -1.5 2.5 -3.5 0.5 -5.5"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="2"
+    stroke-linecap="round"
+    opacity="0.8"
+  />
+
+  <g transform="translate(40,40)">
+    <circle r="6" fill="#f97316" stroke="#7c2d12" stroke-width="1" />
+    <rect x="-1" y="-8" width="2" height="3" fill="#fbbf24" />
+    <rect x="-1" y="5" width="2" height="3" fill="#fbbf24" />
+    <rect x="-8" y="-1" width="3" height="2" fill="#fbbf24" />
+    <rect x="5" y="-1" width="3" height="2" fill="#fbbf24" />
+    <rect x="-6" y="-6" width="2.5" height="2" transform="rotate(-45)" fill="#fbbf24" />
+    <rect x="-6" y="-6" width="2.5" height="2" transform="rotate(45)" fill="#fbbf24" />
+    <rect x="-6" y="-6" width="2.5" height="2" transform="rotate(135)" fill="#fbbf24" />
+    <rect x="-6" y="-6" width="2.5" height="2" transform="rotate(225)" fill="#fbbf24" />
+    <circle r="2" fill="#1e293b" />
+  </g>
+</svg>

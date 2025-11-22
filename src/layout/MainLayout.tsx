@@ -13,48 +13,47 @@ type MainLayoutProps = {
 
 export function MainLayout({ children }: MainLayoutProps) {
   const location = useLocation();
-  
-  // 1. דפים בהם מסתירים את האלמנטים התחתונים לגמרי (בכל המסכים)
+
+  // 1. Pages where the lower sections are fully hidden on all breakpoints
   const isContactPage = location.pathname === "/contact";
   const isComingSoonPage = location.pathname === "/coming-soon";
   const shouldHideBottomSections = isContactPage || isComingSoonPage;
 
-  // 2. דפים בהם מסתירים את ה-TrustBar *רק במובייל*
-  // וודא שהנתיבים כאן תואמים בדיוק למה שהגדרת ב-Router
-  const mobileHiddenPaths = ['/about', '/team']; 
+  // 2. Pages where the TrustBar is hidden on mobile only
+  // Make sure these paths match the Router configuration exactly
+  const mobileHiddenPaths = ["/about", "/team"];
   const shouldHideTrustBarOnMobile = mobileHiddenPaths.includes(location.pathname);
 
   return (
     <div className="app-root">
-      {/* רכיב "בלתי נראה" שמבטיח גלילה למעלה בכל מעבר דף */}
+      {/* Invisible helper that scrolls to top on each navigation */}
       <ScrollToTop />
-      
+
       <Header />
-      
+
       <main className="app-main">
-        
-        {/* הלוגיקה החדשה: */}
+        {/* TrustBar visibility logic */}
         {!shouldHideBottomSections && (
-          /* אם הדף הנוכחי נמצא ברשימה של "הסתר במובייל":
-             hidden = מוסתר כברירת מחדל (מובייל)
-             md:block = מוצג החל מגודל מסך בינוני (טאבלט/דסקטופ) ומעלה
-             
-             אחרת (אם זה לא דף מיוחד): אין מחלקות מיוחדות והוא מוצג תמיד.
+          /* If the current path is in the "mobile hidden" list:
+             hidden   = hide by default on mobile
+             md:block = show from tablet/desktop upward
+
+             Otherwise (regular pages): visible across all breakpoints.
           */
           <div className={shouldHideTrustBarOnMobile ? "hidden md:block" : ""}>
             <TrustBar />
           </div>
         )}
-        
+
         {children}
-        
-        {/* הצגת הנעה לפעולה (CTA) בכל דף, אלא אם כן זה דף מיוחד */}
+
+        {/* Display CTA on every page unless explicitly hidden */}
         {!shouldHideBottomSections && <CallToAction />}
       </main>
-      
+
       <Footer />
-      
-      {/* כפתור וואטסאפ צף שמופיע תמיד מעל הכל */}
+
+      {/* Floating WhatsApp button that always stays on top */}
       <WhatsAppButton />
     </div>
   );

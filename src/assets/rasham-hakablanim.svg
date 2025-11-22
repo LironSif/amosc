@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 64 64"
+     role="img"
+     aria-label="רשם הקבלנים">
+  <!-- מגן -->
+  <path
+    d="M12 10
+       H52
+       V30
+       C52 41 45 50 32 56
+       C19 50 12 41 12 30
+       Z"
+    fill="#1d4ed8"
+    stroke="#0f172a"
+    stroke-width="2"
+  />
+
+  <!-- רקע עליון בהיר -->
+  <path
+    d="M14 12 H50 V30 H14 Z"
+    fill="#eff6ff"
+  />
+
+  <!-- בניין מרכזי -->
+  <rect x="22" y="22" width="16" height="18"
+        fill="#f8fafc"
+        stroke="#0f172a"
+        stroke-width="1.5" />
+
+  <!-- חלונות -->
+  <rect x="24.5" y="24.5" width="3" height="3" fill="#cbd5f5" />
+  <rect x="30" y="24.5" width="3" height="3" fill="#cbd5f5" />
+  <rect x="24.5" y="29.5" width="3" height="3" fill="#cbd5f5" />
+  <rect x="30" y="29.5" width="3" height="3" fill="#cbd5f5" />
+
+  <!-- דלת -->
+  <rect x="27.5" y="33.5" width="5" height="6" fill="#bfdbfe" />
+
+  <!-- בסיס/מרפסת -->
+  <rect x="20" y="40" width="20" height="3" fill="#1e293b" opacity="0.25" />
+
+  <!-- עיגול "אישור" -->
+  <circle cx="43.5" cy="23" r="7"
+          fill="#22c55e"
+          stroke="#14532d"
+          stroke-width="1.5" />
+
+  <!-- וי -->
+  <path
+    d="M40.5 23 l2.2 2.8 l3.8 -5"
+    fill="none"
+    stroke="#ecfdf5"
+    stroke-width="1.7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
