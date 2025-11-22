@@ -14,15 +14,15 @@ type MainLayoutProps = {
 export function MainLayout({ children }: MainLayoutProps) {
   const location = useLocation();
   
-  // בדיקה: האם אנחנו בדף "צור קשר"?
+  // 1. דפים בהם מסתירים את האלמנטים התחתונים לגמרי (בכל המסכים)
   const isContactPage = location.pathname === "/contact";
-  
-  // בדיקה: האם אנחנו בדף "בבניה"?
   const isComingSoonPage = location.pathname === "/coming-soon";
-
-  // משתנה עזר: האם להסתיר את החלקים התחתונים (TrustBar + CTA)
-  // אנחנו מסתירים אותם גם ב"צור קשר" וגם ב"בבניה" כדי שהדף יהיה נקי
   const shouldHideBottomSections = isContactPage || isComingSoonPage;
+
+  // 2. דפים בהם מסתירים את ה-TrustBar *רק במובייל*
+  // וודא שהנתיבים כאן תואמים בדיוק למה שהגדרת ב-Router
+  const mobileHiddenPaths = ['/about', '/team']; 
+  const shouldHideTrustBarOnMobile = mobileHiddenPaths.includes(location.pathname);
 
   return (
     <div className="app-root">
@@ -32,8 +32,19 @@ export function MainLayout({ children }: MainLayoutProps) {
       <Header />
       
       <main className="app-main">
-        {/* הצגת TrustBar בכל דף, אלא אם כן זה דף מיוחד (צור קשר או בבניה) */}
-        {!shouldHideBottomSections && <TrustBar />}
+        
+        {/* הלוגיקה החדשה: */}
+        {!shouldHideBottomSections && (
+          /* אם הדף הנוכחי נמצא ברשימה של "הסתר במובייל":
+             hidden = מוסתר כברירת מחדל (מובייל)
+             md:block = מוצג החל מגודל מסך בינוני (טאבלט/דסקטופ) ומעלה
+             
+             אחרת (אם זה לא דף מיוחד): אין מחלקות מיוחדות והוא מוצג תמיד.
+          */
+          <div className={shouldHideTrustBarOnMobile ? "hidden md:block" : ""}>
+            <TrustBar />
+          </div>
+        )}
         
         {children}
         

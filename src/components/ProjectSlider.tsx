@@ -88,7 +88,7 @@ export function ProjectSlider() {
           className="btn btn-secondary btn-small"
           onClick={goNext}
         >
-          הבא
+          הקודם
         </button>
         <span className="project-slider-counter">
           {current + 1} / {total}
@@ -98,7 +98,7 @@ export function ProjectSlider() {
           className="btn btn-secondary btn-small"
           onClick={goPrev}
         >
-          הקודם
+          הבא
         </button>
       </div>
 
