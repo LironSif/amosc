@@ -22,8 +22,6 @@ export function HomePage() {
       <section className="mini-hero-gallery">
         <div className="mini-gallery-track">
           <img src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763715781/Liron_in_F16_gwntwm.jpg" alt="לירון בטייסת" />
-          
-          {/* התיקון לתמונה של עמוס במפעל */}
           <img 
             src="https://res.cloudinary.com/dfxw7cfie/image/upload/v1763755548/Gemini_Generated_Image_7fuw9p7fuw9p7fuw_wti8hj.png" 
             alt="עמוס במפעל פלדה" 
@@ -99,9 +97,9 @@ export function HomePage() {
         </ol>
       </Section>
 
-      <Section title="פרויקטים נבחרים - מבט מהיר">
+      {/* <Section title="פרויקטים נבחרים - מבט מהיר">
         <ProjectSlider />
-      </Section>
+      </Section> */}
 
       <Section title="מול אנחנו עובדים">
         <ul className="tags-list">

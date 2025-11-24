@@ -20,7 +20,7 @@ export function Hero({
   onSecondaryClick,
 }: HeroProps) {
   return (
-    <section className="pt-10 pb-6">
+    <section className="pt-10 pb-20 md:pb-24">
       <div className="mx-auto max-w-5xl px-4">
         <motion.div
           className="rounded-2xl bg-gradient-to-br from-slate-900/90 to-slate-950/95 px-5 py-7 shadow-xl shadow-slate-950/60"
@@ -45,7 +45,7 @@ export function Hero({
           )}
 
           {(primaryActionText || secondaryActionText) && (
-            <div className="mt-5 flex flex-wrap items-center gap-3">
+            <div className="mt-5 flex flex-wrap items-center gap-3 py-8">
               {primaryActionText && (
                 <button
                   type="button"
